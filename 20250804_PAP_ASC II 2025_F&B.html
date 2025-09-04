@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>After Sales Conference II</title>
+    <link href="https://fonts.cdnfonts.com/css/porsche-next-tt" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        body {
+            font-family: 'Porsche Next TT', sans-serif;
+            background-color: #ffffff;
+            color: #000000;
+        }
+        .porsche-red { color: #D5001C; }
+        .porsche-silver { color: #B0B0B0; }
+        .section-bg {
+            background-image: url('https://pmepress.porsche.com/download/prod/presse_pag/PressBasicData.nsf/Download?OpenAgent&attachmentid=2897143&show=1');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+        }
+        .modal-content {
+            background-color: #ffffff;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #B0B0B0;
+            width: 80%;
+            max-width: 500px;
+            max-height: 70vh;
+            overflow-y: auto;
+            border-radius: 12px;
+        }
+        #map { height: 500px; }
+        table tr:nth-child(even) { background-color: #f2f2f2; }
+        table tr:hover { background-color: #e0e0e0; }
+        .divider-stripe {
+            background-color: #000000;
+            height: 50px;
+            width: 100%;
+        }
+        .content-container {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 24px;
+        }
+        .map-section {
+            background-color: #000000;
+            padding: 24px;
+            border-radius: 12px;
+        }
+        #modal-details a {
+            color: #D5001C;
+            text-decoration: underline;
+            word-break: break-all;
+            overflow-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="section-bg h-screen flex items-center justify-center">
+        <h1 class="text-5xl md:text-7xl font-bold text-center text-white">After Sales Conference II</h1>
+    </section>
+
+    <div class="divider-stripe"></div>
+
+    <!-- Dining and Team Event Schedule -->
+    <section class="py-16 px-4">
+      <h2 class="text-4xl font-bold text-center porsche-red mb-8">Dining and Team Event Schedule</h2>
+      <div class="max-w-4xl mx-auto content-container">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="border-b border-porsche-silver">
+              <th class="py-4 px-6 text-porsche-silver">Day</th>
+              <th class="py-4 px-6 text-porsche-silver">Lunch</th>
+              <th class="py-4 px-6 text-porsche-silver">Dinner/Team Event</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-porsche-silver">
+              <td class="py-4 px-6">Monday, 8th Sep</td>
+              <td class="py-4 px-6">
+                <a href="#" class="text-porsche-red hover:underline"
+                  onclick="showDetails('Porsche Studio',`• Appetiser: Air Flown Mesclun Salad with Summer Fruits, Almonds, and Citrus Vinaigrette (V) (GF)
+• Mains:
+• Pan Grilled Corn Fed Chicken Breast, Roasted Potatoes
+• Macaroni with Smoked Provolone Cheese, Mozzarella and Parmigiano Reggiano (V)
+• Roasted Marble Potato, Caramelized Onion, Fresh Herbs (V) (GF)
+• Garlic Butter Glazed Garden Vegetables, Blistered Cherry Tomatoes (V) (GF)
+• Beverage Package: Still water, Coffee or Tea (order from regular Cafe Carrera Menu)
+
+Website: <a href='https://www.porsche.com/singapore/en/aboutporsche/porsche-studio/cafe-carrera/' target='_blank'>https://www.porsche.com/singapore/en/aboutporsche/porsche-studio/cafe-carrera/</a>`,1.2977277899551323,103.85767913865098)">
+                  Porsche Studio
+                </a>
+              </td>
+              <td class="py-4 px-6">
+                <a href="#" class="text-porsche-red hover:underline"
+                  onclick="showDetails('Ducktours','Details...',1.2962154639617258,103.85934515399204)">
+                  Ducktours
+                </a><br>
+                <a href="#" class="text-porsche-red hover:underline"
+                  onclick="showDetails('Paulaner Brauhaus','Details...',1.2932590424506925,103.85828729632154)">
+                  Paulaner Brauhaus
+                </a>
+              </td>
+            </tr>
+
+            <tr class="border-b border-porsche-silver">
+              <td class="py-4 px-6">Tuesday, 9th Sep</td>
+              <td class="py-4 px-6">
+                <a href="#" class="text-porsche-red hover:underline"
+                  onclick="showDetails('The Telegraph',`Order from the regular menu<br>
+Website: <a href='https://static1.squarespace.com/static/60346f39404e83020b690786/t/684ce408c856351a7d370bc7/1749869591173/%28A4%29+Telegraph+Menu+2025+%28Updated+on+4+June%29.pdf' target='_blank'>https://static1.squarespace.com/static/60346f39404e83020b690786/t/684ce408c856351a7d370bc7/1749869591173/(A4)+Telegraph+Menu+2025+(Updated+on+4+June).pdf</a>`,1.2970114160891666,103.85749342515686)">
+                  The Telegraph
+                </a>
+              </td>
+              <td class="py-4 px-6">
+                <a href="#" class="text-porsche-red hover:underline"
+                  onclick="showDetails('Free Evening','Recommendations (Placeholder):<br>- Marina Bay Sands SkyPark<br>- Clarke Quay<br>- Gardens by the Bay<br>- Singapore Flyer',1.295,103.859)">
+                  Free
+                </a>
+              </td>
+            </tr>
+
+            <tr class="border-b border-porsche-silver">
+              <td class="py-4 px-6">Wednesday, 10th Sep</td>
+              <td class="py-4 px-6">
+                <a href="#" class="text-porsche-red hover:underline"
+                  onclick="showDetails('Summer Folks',`Summerfolks Menu<br><br>Main Course (choose one):<br>Linguine Aglio Olio with tiger prawns, bacon, chilli<br>Fried Buttermilk Chicken with kimchi slaw, melted cheddar, chilli mayo, nori fries<br>Fragrant Coconut Rice with egg, tempura fried halibut, ikan bilis, peanut, sambal<br>Cream Spinach with mash potato, herb jus (+5 dollars)<br>200g Striploin with sunny-side-up eggs, baby potato balls, spicy harissa sauce (+9 dollars)<br><br>Drink (1 per person, choose one):<br>Hot Long Black<br>Hot Café Latte<br>Iced Long Black<br>Iced Café Latte<br>Hot Fruit Basket Tea<br>Hot Ginger Lemon Tea<br>Iced Lemon Tea<br>Iced Honey Lemon<br>Iced Lychee Lemon Tea<br>Sea Salt Blue Lemonade<br>Lychee Mint Soda<br><br>Dessert:<br>1 slice of cake per person`,1.2971186735816227,103.85752559136573)">
+                  Summer Folks
+                </a>
+              </td>
+              <td class="py-4 px-6">
+                <a href="#" class="text-porsche-red hover:underline"
+                  onclick="showDetails('Free Evening','Recommendations (Placeholder):<br>...',1.295,103.859)">
+                  Free
+                </a>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="py-4 px-6">Thursday, 11th Sep</td>
+              <td class="py-4 px-6">
+                <a href="#" class="text-porsche-red hover:underline"
+                  onclick="showDetails('Umai',`Order from the regular menu<br>
+Website: <a href='https://www.dropbox.com/scl/fi/so40dmdhcgc4v7dvp5sk9/Umai-Menu.pdf?rlkey=ruzmr3iuah5zb3jife7y774t5&e=1&dl=0' target='_blank'>https://www.dropbox.com/scl/fi/so40dmdhcgc4v7dvp5sk9/Umai-Menu.pdf</a>`,1.2971435986916304,103.85759234049799)">
+                  Umai
+                </a>
+              </td>
+              <td class="py-4 px-6">
+                <a href="#" class="text-porsche-red hover:underline"
+                  onclick="showDetails('Free Evening','Recommendations (Placeholder):<br>...',1.295,103.859)">
+                  Free
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="py-16 px-4 map-section">
+      <h2 class="text-4xl font-bold text-center porsche-red mb-8">Event Locations</h2>
+      <div class="max-w-4xl mx-auto content-container">
+        <div id="map"></div>
+      </div>
+    </section>
+
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <h3 id="modal-title" class="text-2xl porsche-red mb-4"></h3>
+        <p id="modal-details" class="text-black whitespace-pre-line"></p>
+        <button onclick="closeModal()" class="mt-4 px-4 py-2 bg-porsche-red text-white rounded hover:bg-red-700">Close</button>
+      </div>
+    </div>
+
+    <script>
+      const map = L.map('map').setView([1.295, 103.859], 15);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(map);
+
+      const locations = [
+        { name: 'Porsche Studio', lat: 1.2977277899551323, lng: 103.85767913865098, address: '...' },
+        { name: 'The Telegraph', lat: 1.2970114160891666, lng: 103.85749342515686, address: '...' },
+        { name: 'Paulaner Brauhaus', lat: 1.2932590424506925, lng: 103.85828729632154, address: '...' },
+        { name: 'Summer Folks', lat: 1.2971186735816227, lng: 103.85752559136573, address: '...' },
+        { name: 'So Do Fun', lat: 1.297474294314912, lng: 103.85725591166262, address: '...' },
+        { name: 'Umai', lat: 1.2971435986916304, lng: 103.85759234049799, address: '...' },
+        { name: 'Ducktours', lat: 1.2962154639617258, lng: 103.85934515399204, address: '...' },
+        { name: 'Xcape', lat: 1.301405839403904, lng: 103.85563053680983, address: '...' },
+        { name: 'Night Safari', lat: 1.4024067704741168, lng: 103.7883016542753, address: '...' }
+      ];
+
+      locations.forEach(loc => {
+        L.marker([loc.lat, loc.lng]).addTo(map)
+          .bindPopup(`<b>${loc.name}</b><br>${loc.address}`);
+      });
+
+      function showDetails(title, details, lat, lng) {
+        document.getElementById('modal-title').innerText = title;
+        document.getElementById('modal-details').innerHTML = details.replace(/\n/g, '<br>');
+        document.getElementById('modal').style.display = 'block';
+        map.setView([lat, lng], 17);
+      }
+
+      function closeModal() {
+        document.getElementById('modal').style.display = 'none';
+      }
+
+      window.onclick = function(event) {
+        if (event.target == document.getElementById('modal')) {
+          closeModal();
+        }
+      };
+    </script>
+</body>
+</html>
