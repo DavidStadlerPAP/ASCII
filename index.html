@@ -23,7 +23,7 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            background-attachment: scroll; /* Wichtig für Handy */
+            background-attachment: scroll;
             min-height: 60vh;
             display: flex;
             align-items: center;
@@ -41,10 +41,11 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0,0,0,0.8);
+            align-items: center;
+            justify-content: center;
         }
         .modal-content {
             background-color: #ffffff;
-            margin: 5% auto;
             padding: 20px;
             border: 1px solid #B0B0B0;
             width: 90%;
@@ -85,7 +86,7 @@
         }
 
         #modal-details a {
-            color: rgb(1,115,121); /* Neue Farbe */
+            color: rgb(1,115,121);
             text-decoration: underline;
             word-break: break-all;
             overflow-wrap: break-word;
@@ -227,24 +228,24 @@ Website: <a href='https://www.dropbox.com/scl/fi/so40dmdhcgc4v7dvp5sk9/Umai-Menu
           .bindPopup(`<b>${loc.name}</b>`);
       });
 
+      const modal = document.getElementById('modal');
+      const modalTitle = document.getElementById('modal-title');
+      const modalDetails = document.getElementById('modal-details');
+
       function showDetails(title, details, lat, lng) {
-        document.getElementById('modal-title').innerText = title;
-        document.getElementById('modal-details').innerHTML = details.replace(/\n/g, '<br>');
-        document.getElementById('modal').style.display = 'block';
+        modalTitle.innerText = title;
+        modalDetails.innerHTML = details.replace(/\n/g, '<br>');
+        modal.style.display = 'flex';
         map.setView([lat, lng], 17);
       }
 
       function closeModal() {
-        document.getElementById('modal').style.display = 'none';
+        modal.style.display = 'none';
       }
 
-      window.onclick = function(event) {
-        if (event.target == document.getElementById('modal')) {
-          closeModal();
-        }
-      };
+      // Klick und Touch auf Overlay schließen Modal
+      modal.addEventListener('click', e => { if(e.target === modal) closeModal(); });
+      modal.addEventListener('touchstart', e => { if(e.target === modal) closeModal(); });
     </script>
 </body>
 </html>
-
-
